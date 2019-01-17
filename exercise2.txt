@@ -1,0 +1,24 @@
+######################################################################################################
+######################################## EXERCISE 2 ##################################################
+######################################################################################################
+
+                                                                                                     KEYS
+                                                                                        -------------------------------
+UNF   DB(staffNo, appointment, dentistName, patientNo, patientName, surgeryNo)         |  staffNo
+
+
+1NF   DB(staffNo, apptDate, apptTime, dentistName, patientNo, patientName, surgeryNo)  |  staffNo, apptDate, apptTime 
+      
+      
+2NF   Appointment(StaffNo, apptDate, apptTime, patientNo, patientName)                 |  staffNo, apptDate, apptTime
+      Surgery(StaffNo, apptDate, surgeryNo)                                            |  staffNo, apptDate
+      Dentist(StaffNo, dentistName)                                                    |  staffNo   
+         
+         
+3NF   Dentist(StaffNo, dentistName)                                                    |  staffNo
+      Surgery(StaffNo, apptDate, surgeryNo)                                            |  staffNo, apptDate
+      Appointment(StaffNo, apptDate, apptTime, patientNo)                              |  staffNo, apptDate, apptTime
+      Patient(PatientNo, patientName)                                                  |  patientNo
+      
+      
+BCNF  3NF 
