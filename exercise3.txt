@@ -1,0 +1,24 @@
+######################################################################################################
+######################################## EXERCISE 3 ##################################################
+######################################################################################################
+
+                                                                                                                                                      KEYS
+                                                                                                                                          -------------------------------
+UNF   DB(patientNo, patientName, bedNo, ward, drugNo, drugName, description, dosage, method, unitsDay, date)                           |  
+
+
+1NF   DB(patientNo, patientName, bedNo, wardNo, wardName, drugNo, drugName, description, dosage, method, unitsDay, dateStart, dateEnd) |  patientNo, drugNo, dateStart
+
+
+2NF   patient(patientNo, patientName, drugNo, wardNo, wardName, bedNo)                                                                 |  patientNo, drugNo
+      drug(drugNo, drugName, description, dosage, method)                                                                              |  drugNo
+      treatment(drugNo, dateStart, unitsDay, dateEnd)                                                                                  |  drugNo, dateStart
+   
+    
+3NF   patient(patientNo, patientName, drugNo, wardNo)                                                                                  |  patientNo, drugNo
+      location(wardNo, wardName, bedNo)                                                                                                |  wardNo
+      drug(drugNo, drugName, description, dosage, method)                                                                              |  drugNo
+      treatment(drugNo, patientNo, dateStart, unitsDay, dateEnd)                                                                       |  drugNo, patientNo, dateStart
+      
+
+BCNF  <-- 3NF                                                                                                                          |
