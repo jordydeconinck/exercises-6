@@ -1,0 +1,165 @@
+######################################################################################################
+######################################## EXERCISE 5 ##################################################
+######################################################################################################
+
+DATABASE:
+
+mysql> show columns from booking;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| hotelno  | varchar(10)  | NO   | PRI | NULL    |       |
+| guestno  | decimal(5,0) | NO   | PRI | NULL    |       |
+| datefrom | date         | NO   | PRI | NULL    |       |
+| dateto   | date         | YES  |     | NULL    |       |
+| roomno   | decimal(5,0) | YES  | MUL | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> show columns from guest;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| guestno      | decimal(5,0) | NO   | PRI | NULL    |       |
+| guestname    | varchar(20)  | YES  |     | NULL    |       |
+| guestaddress | varchar(50)  | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> show columns from hotel;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| hotelno   | varchar(10) | NO   | PRI | NULL    |       |
+| hotelname | varchar(20) | YES  |     | NULL    |       |
+| city      | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> show columns from room;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| roomno  | decimal(5,0) | NO   | PRI | NULL    |       |
+| hotelno | varchar(10)  | NO   | PRI | NULL    |       |
+| type    | varchar(10)  | YES  |     | NULL    |       |
+| price   | decimal(5,2) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+
+#######################################################################################################
+
+1. List the names and addresses of all guests in London, alphabetically ordered by  name.
+
+   mysql> SELECT guestname, guestaddress FROM guest JOIN booking  ON guest.guestno = booking.guestno JOIN hotel on booking.hotelno = hotel.hotelno WHERE hotel.city = "London" ORDER BY guestname ASC;
+
+
+2. List all double or family rooms with a price below £40.00 per night, cheapest first.
+
+   mysql> SELECT * FROM room WHERE price < 40.00 AND (type = "double" OR type = "family") ORDER BY price ASC;
+
+
+3. List the bookings for which no date_to has been specified.
+
+   mysql> SELECT * FROM booking WHERE dateto IS NULL;
+
+
+4. What is the average price of a room?
+
+   mysql> SELECT avg(price) FROM room;
+   
+
+5. What is the total revenue per night from all double rooms?
+
+   mysql> SELECT sum(price), type FROM room WHERE type = "double";
+   
+
+6. How many different guests have made bookings for August?
+
+   mysql> SELECT COUNT(DISTINCT guestno) FROM booking WHERE datefrom LIKE "%-04-%";
+   
+
+7. List the price and type of all rooms at the The Tower Hotel.
+
+   mysql> SELECT price, type FROM room JOIN hotel ON room.hotelno = hotel.hotelno WHERE hotel.hotelname ="The Tower Hotel";
+
+
+8. List all guests currently staying at the The Tower Hotel.
+
+   mysql> SELECT guestname FROM guest JOIN booking on guest.guestno = booking.guestno JOIN hotel ON booking.hotelno = hotel.hotelno WHERE booking.datefrom < NOW() AND booking.dateto > NOW() AND hotel.hotelname = "The Tower Hotel";
+
+
+9. List the details of all rooms at the The Tower Hotel, including the name of the guest staying in 
+the room, if the room is occupied.
+
+   mysql> SELECT * FROM room JOIN booking ON room.hotelno = booking.hotelno JOIN hotel ON booking.hotelno = hotel.hotelno JOIN guest ON booking.guestno = guest.guestno WHERE hotel.hotelname = "The Tower Hotel" AND booking.datefrom < NOW() AND booking.dateto > NOW();
+
+
+10. What is the total income from bookings for the The Tower Hotel today?
+
+   mysql> SELECT SUM(price) FROM room JOIN booking ON room.hotelno = booking.hotelno JOIN hotel ON booking.hotelno = hotel.hotelno WHERE hotel.hotelname = "The Tower Hotel" AND booking.datefrom < NOW() AND booking.dateto > NOW();
+
+
+11. List the rooms that are currently unoccupied at the The Tower Hotel.
+
+   mysql> SELECT * FROM room JOIN hotel ON room.hotelno = hotel.hotelno WHERE hotel.hotelname="The Tower Hotel" and roomno not in (SELECT roomno FROM booking JOIN hotel ON booking.hotelno=hotel.hotelno WHERE datefrom <= NOW() AND dateto >= NOW());
+
+
+12. What is the lost income from unoccupied rooms at the The Tower Hotel?
+
+   mysql> SELECT sum(price) FROM room JOIN booking ON room.hotelno = booking.hotelno JOIN hotel ON booking.hotelno = hotel.hotelno WHERE hotel.hotelname = "The Tower Hotel" AND booking.datefrom < NOW() AND booking.dateto > NOW() AND booking.guestno IS NULL;
+
+13. List the number of rooms in each hotel in London.
+
+   mysql>  SELECT hotel.hotelname, COUNT(*)  FROM room JOIN hotel ON room.hotelno = hotel.hotelno WHERE hotel.city = "London" GROUP BY hotel.hotelname;
+
+
+14. What is the most commonly booked room type for each hotel in London?
+
+   mysql> 
+
+15. Update the price of all rooms by 5%
+
+   mysql> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

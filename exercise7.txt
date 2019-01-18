@@ -1,0 +1,45 @@
+######################################################################################################
+######################################## EXERCISE 5 ##################################################
+######################################################################################################
+
+1. Display the fields restaurant_id, name, borough and cuisine for all the documents in the collection restaurant.
+
+   > db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1});
+
+2. Display the second group of 5 restaurants which are in the borough Bronx.
+
+   > db.restaurants.find({"borough":"Bronx"}).skip(5).limit(5)
+
+3. Find the restaurants who achieved a score more than 90.
+
+   > db.restaurants.find({grades: {$elemMatch:{"score":{$gt : 90}}}})
+ 
+4. Find the restaurants that do not prepare any cuisine of 'American' and their grade  score more than 
+70 and latitude less than -65.754168.
+
+   > 
+
+5. Find the restaurants which belong to the borough Bronx and prepared either  American or Chinese 
+dish.
+
+   >
+
+6. Find the restaurant Id, name, borough and cuisine for those restaurants which are not  belonging to the borough Staten Island or Queens or Bronxor Brooklyn.
+
+   >
+
+7. Find the restaurant Id, name, borough and cuisine for those restaurants which  achieved a score which is not more than 10.
+
+   >
+
+8. Find the restaurant Id, name, and grades for those restaurants which achieved a  grade of "A" and scored 11 on an ISODate "2014-08-11T00:00:00Z" among many of  survey dates.
+
+   >
+
+9. Give a list of all restaurants, ordered by cuisine alphabetically and borough in reverse  alphabetical order
+
+   >
+
+10. Write a query to know whether all the addresses contain a street or not.
+
+   >
